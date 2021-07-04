@@ -24,23 +24,26 @@ const ClerkFeatures = () => (
 );
 
 const InputArea = () => {
-  const [longUrl, setLongUrl] = useState('https://bit.ly/3hwbp8G')
-  const [shortedURL, setShortedUrl] = useState()
+  const [longUrl, setLongUrl] = useState()
+  const [shortedUrl, setShortedUrl] = useState()
   const [error, setError] = useState()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const result = await getShortUrl(longUrl)
-    if (result.error) {
+    const {link, error} = await getShortUrl(longUrl)
+    if (error) {
       setError(error)
       return
     }
-    console.log(result);
+    if (link) {
+      setError(null)
+      setShortedUrl(link)
+    }
   }
   return (
     <div className='pt-8'>
       <form className='flex' onSubmit={handleSubmit}>
-        <input onChange={e => setLongUrl(e.target.value)} className='bg-gray-200 shadow-inner rounded-l p-2 flex-1' id='longUrl' type='text' aria-label='Long URL' placeholder='Enter long url' />
+        <input value={longUrl} onChange={e => setLongUrl(e.target.value)} className='bg-gray-200 shadow-inner rounded-l p-2 flex-1' id='longUrl' type='text' aria-label='Long URL' placeholder='Enter long url' />
         <button className='bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 rounded-r' type='submit'>
           short it!
         </button>
@@ -50,14 +53,20 @@ const InputArea = () => {
         {error} 
       </div>
       )}
-      { shortedURL && (
+      { shortedUrl && (
         <div className='mt-8 pt-8 pb-8 pl-5 pr-5 bg-blue-200 rounded'>
           Your shorted: 
-          <a href={shortedURL} target='_blank' className='underline italic'> { shortedURL } </a>
+          <a href={shortedUrl} target='_blank' className='underline italic'> { shortedUrl } </a>
         </div>
       )}
       
     </div>
+  )
+}
+
+const UrlList = () => {
+  return (
+    <div></div>
   )
 }
 
@@ -92,7 +101,7 @@ const Main = () => (
     <div className={styles.cards}>
       <div className={styles.card}>
         <SignedIn>
-          <ClerkFeatures />
+          <p>Danh sachs links</p>
         </SignedIn>
         <SignedOut>
           <SignupLink />

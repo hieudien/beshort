@@ -22,6 +22,7 @@ const Header = () => (
     <div className={styles.right}>
       <SignedOut>
         <Link href="/sign-in">Sign in</Link>
+        <Link href="/sign-up">Sign up</Link>
       </SignedOut>
       <SignedIn>
         <UserButton />
