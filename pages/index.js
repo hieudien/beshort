@@ -2,6 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { useState } from 'react';
+import { getShortUrl } from '../services/beshort'
 
 const ClerkFeatures = () => (
   <Link href="/user">
@@ -21,6 +23,44 @@ const ClerkFeatures = () => (
   </Link>
 );
 
+const InputArea = () => {
+  const [longUrl, setLongUrl] = useState('https://bit.ly/3hwbp8G')
+  const [shortedURL, setShortedUrl] = useState()
+  const [error, setError] = useState()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const result = await getShortUrl(longUrl)
+    if (result.error) {
+      setError(error)
+      return
+    }
+    console.log(result);
+  }
+  return (
+    <div className='pt-8'>
+      <form className='flex' onSubmit={handleSubmit}>
+        <input onChange={e => setLongUrl(e.target.value)} className='bg-gray-200 shadow-inner rounded-l p-2 flex-1' id='longUrl' type='text' aria-label='Long URL' placeholder='Enter long url' />
+        <button className='bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 rounded-r' type='submit'>
+          short it!
+        </button>
+      </form>
+      { error && (
+        <div className='mt-8 pt-5 pb-5 pl-5 pr-5 bg-red-200 rounded text-red-600 font-bold'>
+        {error} 
+      </div>
+      )}
+      { shortedURL && (
+        <div className='mt-8 pt-8 pb-8 pl-5 pr-5 bg-blue-200 rounded'>
+          Your shorted: 
+          <a href={shortedURL} target='_blank' className='underline italic'> { shortedURL } </a>
+        </div>
+      )}
+      
+    </div>
+  )
+}
+
 const SignupLink = () => (
   <Link href="/sign-up">
     <a className={styles.cardContent}>
@@ -28,8 +68,7 @@ const SignupLink = () => (
       <div>
         <h3>Sign up for an account</h3>
         <p>
-          Sign up and sign in to explore all the features provided by Clerk
-          out-of-the-box
+          Sign up and sign in to manage your shorted URL
         </p>
       </div>
       <div className={styles.arrow}>
@@ -47,9 +86,9 @@ const SignupLink = () => (
 // https://docs.clerk.dev/frontend/react/signedin-and-signedout
 const Main = () => (
   <main className={styles.main}>
-    <h1 className={styles.title}>Welcome to your new app</h1>
-    <p className={styles.description}>Sign up for an account to get started</p>
-
+    <h1 className='text-blue-500 font-bold text-4xl text-center'>beshort</h1>
+    <p className='text-center text-gray-500'>always short</p>
+    <InputArea/>
     <div className={styles.cards}>
       <div className={styles.card}>
         <SignedIn>
@@ -59,37 +98,6 @@ const Main = () => (
           <SignupLink />
         </SignedOut>
       </div>
-
-      <div className={styles.card}>
-        <Link href="https://dashboard.clerk.dev">
-          <a target="_blank" rel="noreferrer" className={styles.cardContent}>
-            <img src="/icons/settings.svg" />
-            <div>
-              <h3>Configure settings for your app</h3>
-              <p>
-                Visit Clerk to manage instances and configure settings for user
-                management, theme, and more
-              </p>
-            </div>
-            <div className={styles.arrow}>
-              <img src="/icons/arrow-right.svg" />
-            </div>
-          </a>
-        </Link>
-      </div>
-    </div>
-
-    <div className={styles.links}>
-      <Link href="https://docs.clerk.dev">
-        <a target="_blank" rel="noreferrer" className={styles.link}>
-          <span className={styles.linkText}>Read Clerk documentation</span>
-        </a>
-      </Link>
-      <Link href="https://nextjs.org/docs">
-        <a target="_blank" rel="noreferrer" className={styles.link}>
-          <span className={styles.linkText}>Read NextJS documentation</span>
-        </a>
-      </Link>
     </div>
   </main>
 );

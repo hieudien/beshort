@@ -15,7 +15,7 @@ const Header = () => (
       <Link href="/">
         <a className={styles.logo}>
           <Image src="/logo.svg" width="32" height="32" alt="Logo" />
-          <span className={styles.appName}>Your application</span>
+          <span className='text-blue-500 font-bold pl-2'>beshort</span>
         </a>
       </Link>
     </div>
