@@ -101,7 +101,7 @@ const Main = () => (
     <div className={styles.cards}>
       <div className={styles.card}>
         <SignedIn>
-          <p>Danh sachs links</p>
+          <p>Your URL list:</p>
         </SignedIn>
         <SignedOut>
           <SignupLink />
@@ -130,7 +130,7 @@ const Footer = () => (
 const Home = () => (
   <div className={styles.container}>
     <Head>
-      <title>Create Next App</title>
+      <title>beshort</title>
       <link rel="icon" href="/favicon.ico" />
       <meta
         name="viewport"
