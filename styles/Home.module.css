@@ -9,7 +9,7 @@
 }
 
 .main {
-  max-width: 540px;
+  width: 50%;
   padding-top: 2rem;
   flex: 1;
 }

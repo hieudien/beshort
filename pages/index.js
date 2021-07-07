@@ -2,73 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
-import { useState } from 'react';
-import { getShortUrl } from '../services/beshort'
-
-const ClerkFeatures = () => (
-  <Link href="/user">
-    <a className={styles.cardContent}>
-      <img src="/icons/layout.svg" />
-      <div>
-        <h3>Explore features provided by Clerk</h3>
-        <p>
-          Interact with the user button, user profile, and more to preview what
-          your users will see
-        </p>
-      </div>
-      <div className={styles.arrow}>
-        <img src="/icons/arrow-right.svg" />
-      </div>
-    </a>
-  </Link>
-);
-
-const InputArea = () => {
-  const [longUrl, setLongUrl] = useState()
-  const [shortedUrl, setShortedUrl] = useState()
-  const [error, setError] = useState()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const {link, error} = await getShortUrl(longUrl)
-    if (error) {
-      setError(error)
-      return
-    }
-    if (link) {
-      setError(null)
-      setShortedUrl(link)
-    }
-  }
-  return (
-    <div className='pt-8'>
-      <form className='flex' onSubmit={handleSubmit}>
-        <input value={longUrl} onChange={e => setLongUrl(e.target.value)} className='bg-gray-200 shadow-inner rounded-l p-2 flex-1' id='longUrl' type='text' aria-label='Long URL' placeholder='Enter long url' />
-        <button className='bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 rounded-r' type='submit'>
-          short it!
-        </button>
-      </form>
-      { error && (
-        <div className='mt-8 pt-5 pb-5 pl-5 pr-5 bg-red-200 rounded text-red-600 font-bold'>
-        {error} 
-      </div>
-      )}
-      { shortedUrl && (
-        <div className='mt-8 pt-8 pb-8 pl-5 pr-5 bg-blue-200 rounded'>
-          Your shorted: 
-          <a href={shortedUrl} target='_blank' className='underline italic'> { shortedUrl } </a>
-        </div>
-      )}
-      
-    </div>
-  )
-}
-
-const UrlList = () => {
-  return (
-    <div></div>
-  )
-}
+import InputArea from '../components/InputArea'
+import UrlList from '../components/UrlList'
 
 const SignupLink = () => (
   <Link href="/sign-up">
@@ -101,7 +36,7 @@ const Main = () => (
     <div className={styles.cards}>
       <div className={styles.card}>
         <SignedIn>
-          <p>Your URL list:</p>
+          <UrlList/>
         </SignedIn>
         <SignedOut>
           <SignupLink />
