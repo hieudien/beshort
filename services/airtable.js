@@ -17,6 +17,7 @@ const getUserUrl = async function (userId) {
     const res = await air
       .select({
         filterByFormula: "{user_id} = '" + userId + "'",
+        sort: [{field: "created_at", direction: "desc"}]
       })
       .all()
     return parseAirTableResponse(res)
@@ -38,10 +39,12 @@ const createURL = async function (data) {
   return result
 }
 
-const updateURL = async function (data) {
-  return {
-    success: true,
+const removeURL = async function (id) {
+  let result = {
+    success: false,
   }
+  await air.destroy([id]).then(res => result = { success: true}) 
+  return result
 }
 
 /**
@@ -53,7 +56,10 @@ function parseAirTableResponse(res) {
   if (!res || !res.length) {
     return []
   }
-  return res.map((row) => row.fields || [])
+  return res.map((row) => {
+    const fields = row.fields
+    return {...fields, airId: row.id}
+  })
 }
 
-export { getUserUrl, createURL, updateURL }
+export { getUserUrl, createURL, removeURL }

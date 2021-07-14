@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 
 import Layout from '../components/Layout'
 import UrlHandler from "../services/urlHanlder"
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * List pages you want to be publicly accessible, or leave empty if
@@ -29,6 +31,7 @@ const MyApp = ({ Component, pageProps }) => {
         navigate={(to) => router.push(to)}
       >
         <Layout>
+          <ToastContainer/>
           {publicPages.includes(router.pathname) ? (
             <Component {...pageProps} />
           ) : (
