@@ -50,7 +50,7 @@ const InputArea = () => {
   }
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 w-96 sm:w-full">
       <form className="flex" onSubmit={handleSubmit}>
         <input
           value={longUrl}
