@@ -31,17 +31,15 @@ const SignupLink = () => (
 const Main = () => (
   <main className={styles.main}>
     <h1 className='text-blue-500 font-bold text-4xl text-center'>beshort</h1>
-    <p className='text-center text-gray-500'>always short</p>
+    <p className='text-center text-gray-500'>let short</p>
     <InputArea/>
     <div className={styles.cards}>
-      <div className={styles.card}>
         <SignedIn>
           <UrlList/>
         </SignedIn>
         <SignedOut>
           <SignupLink />
         </SignedOut>
-      </div>
     </div>
   </main>
 );
@@ -63,8 +61,8 @@ const Footer = () => (
 );
 
 const Home = () => (
-  <div className={styles.container}>
-    <Head>
+  <div className={styles.container + ' sm:flex'}>
+    <Head className="justify-items-center">
       <title>beshort</title>
       <link rel="icon" href="/favicon.ico" />
       <meta

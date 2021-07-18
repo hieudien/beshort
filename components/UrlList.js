@@ -34,28 +34,28 @@ const UrlList = () => {
       fetchUrl()
     }
   }
+  function handleRowClick (event, text) {
+    event.target.select()
+    navigator.clipboard.writeText(text)
+    toastInfo('copied!')
+  }
   function urlListRender(urlList) {
     if (!urlList.length) {
-      return <p>Your have no URL, let short some!</p>
+      return
     }
-    const items = urlList.map((row, index) => {
+    const items = urlList.map((row) => {
       return (
         <tr key={row.id}>
-          <td className="border border-green-600">{index+1}</td>
-          <td className="border border-green-600">{row.name}</td>
-          <td className="border border-green-600">
-            <input defaultValue={row.long_url}></input>
+          <td className="w-2/6 sm:w-2/12 border border-green-600">{row.name}</td>
+          <td className="w-3/6 sm:w-3/12 border border-green-600 hidden sm:table-cell p-1">
+            <input className="w-full" defaultValue={row.long_url} readOnly={true} onFocus={(event) => handleRowClick(event, row.long_url)}/>
           </td>
-          <td className="border border-green-600">{row.short_url}</td>
-          <td className="border border-green-600">{row.created_at.slice(0, 19).replace('T', ' ')}</td>
-          <td className="border border-green-600">
-            <button className="float-left pl-3" onClick={() => {
-              navigator.clipboard.writeText(row.short_url)
-              toastInfo('copied!')
-            }}>
-              <Image className="object-contain" width="20" height="20" src={copyIcon} alt="Copy Icon" />
-            </button>
-            <button className="float-right pr-3" onClick={() => remove(row.airId)}>
+          <td className="w-3/6 sm:w-3/12 border border-green-600">
+            <input className="w-full" defaultValue={row.short_url} readOnly={true} onFocus={(event) => handleRowClick(event, row.short_url)}/>
+          </td>
+          <td className="sm:w-2/12 border border-green-600 hidden sm:table-cell">{row.created_at.slice(0, 19).replace('T', ' ')}</td>
+          <td className="sm:w-1/12 border border-green-600">
+            <button onClick={() => remove(row.airId)}>
               <Image className="object-contain" width="20" height="20" src={deleteIcon} alt="Delete Icon" />
             </button>
           </td>
@@ -63,15 +63,14 @@ const UrlList = () => {
       )
     })
     return (
-      <table className="table-fixed border-separate border border-green-800 text-center">
+      <table className="text-sm table-fixed border-separate border border-green-800 text-center w-96 sm:w-full">
         <thead>
           <tr>
-            <th className="w-1/8 border border-green-600">#</th>
-            <th className="w-1/5 border border-green-600">Title</th>
-            <th className="w-1/5 border border-green-600">Long URL</th>
-            <th className="w-1/5 border border-green-600">Shorted URL</th>
-            <th className="w-1/5 border border-green-600">Created At</th>
-            <th className="w-1/6 border border-green-600">Action</th>
+            <th className="w-2/6 sm:w-2/12 border border-green-600">Title</th>
+            <th className="w-3/6 sm:w-3/12 border border-green-600 hidden sm:table-cell">Long URL</th>
+            <th className="w-3/6 sm:w-3/12 border border-green-600">Shorted URL</th>
+            <th className="sm:w-2/12 border border-green-600 hidden sm:table-cell">Created At</th>
+            <th className="sm:w-1/12 border border-green-600">Action</th>
           </tr>
         </thead>
         <tbody>{items}</tbody>
@@ -80,7 +79,14 @@ const UrlList = () => {
   }
   return (
     <div>
-      <p className="font-bold">Hi {user.lastName}, here is your URLs list:</p>
+      {urlHanlder.urlList.length > 0 ? (
+        <span>
+          <p className="w-max font-bold">Hi {user.lastName}, here is your URLs list:</p>
+          <p className="w-max">Click/tap on link to copy.</p>
+        </span>
+      ) : (
+        <p className="w-max font-bold">Hi {user.lastName}, you have no URL, let short some!</p>
+      )}
       <div>{urlListRender(urlHanlder.urlList)}</div>
     </div>
   )
