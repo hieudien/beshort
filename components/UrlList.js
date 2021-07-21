@@ -63,7 +63,7 @@ const UrlList = () => {
       )
     })
     return (
-      <table className="text-sm table-fixed border-separate border border-green-800 text-center w-96 sm:w-full">
+      <table className="mt-5 text-sm table-fixed border-separate border border-green-800 text-center w-96 sm:w-full">
         <thead>
           <tr>
             <th className="w-2/6 sm:w-2/12 border border-green-600">Title</th>
@@ -82,7 +82,7 @@ const UrlList = () => {
       {urlHanlder.urlList.length > 0 ? (
         <span>
           <p className="w-max font-bold">Hi {user.lastName}, here is your URLs list:</p>
-          <p className="w-max">Click/tap on link to copy.</p>
+          <p className="w-max text-blue-600">Click/tap on link to copy.</p>
         </span>
       ) : (
         <p className="w-max font-bold">Hi {user.lastName}, you have no URL, let short some!</p>
