@@ -29,6 +29,12 @@ const InputArea = () => {
     }
   }
 
+  const clearForm = function () {
+    setLongUrl('')
+    setShortedUrl('')
+    setTitle('')
+  }
+
   const saveURL = (e) => {
     e.preventDefault()
     createURL({
@@ -51,23 +57,32 @@ const InputArea = () => {
 
   return (
     <div className="pt-8 w-96 sm:w-full">
-      <form className="flex" onSubmit={handleSubmit}>
+      <div className='flex'>
+      <form className='w-5/6'>
         <input
           value={longUrl}
           onChange={(e) => setLongUrl(e.target.value)}
-          className="bg-gray-200 shadow-inner rounded-l p-2 flex-1"
+            className="bg-gray-200 shadow-inner rounded-l p-2 flex-1 w-full"
           id="longUrl"
           type="text"
           aria-label="long URL"
           placeholder="enter long url"
         />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 rounded-r w-20"
-          type="submit"
-        >
-          short it!
-        </button>
+        
       </form>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 w-20"
+        onClick={handleSubmit}
+      >
+        short it!
+      </button>
+      <button
+        className="bg-gray-500 hover:bg-gray-700 duration-300 text-white shadow p-2 w-20"
+        onClick={clearForm}
+      >
+        clear
+      </button>
+      </div>
       {shortedUrl && (
         <span>
           <div className="mt-5 pt-2 pb-2 pl-5 bg-gray-200 rounded" >
@@ -93,7 +108,7 @@ const InputArea = () => {
                 placeholder="enter title"
               />
               <button
-                className="bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 rounded-r w-20"
+                className="bg-blue-500 hover:bg-blue-700 duration-300 text-white shadow p-2 w-20"
                 type="submit"
               >
                 save it!
